@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "app.privacy-policy.url",
+  "type": "java.lang.String",
+  "description": "A description for 'app.privacy-policy.url'"
+}]}
