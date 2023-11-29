@@ -37,7 +37,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public BCryptPasswordEncoder encoder(){
+    public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -45,24 +45,35 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         var builder = http.getSharedObject(AuthenticationManagerBuilder.class);
         builder.userDetailsService(userService).passwordEncoder(encoder());
-        
+
         var authenticationManager = builder.build();
 
         http.csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(requests -> 
-                    requests
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.POST, "/psychologists").permitAll()
                         .requestMatchers(HttpMethod.POST, "/patients").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/avaliation").permitAll()
                         .requestMatchers(HttpMethod.POST, "/schedulings").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/addresses").permitAll()
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/refresh").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/psychologists").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/psychologists/{id}").permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/psychologists").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/psychologists").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/psychologists/{id}").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/psychologists").permitAll()
                         .requestMatchers(HttpMethod.GET, "/patients/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/patients").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/patients").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/psychologists").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/patients").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/schedulings").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/addresses/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/addresses").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/addresses").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/addresses").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/avaliation").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/avaliation/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/avaliation").permitAll()
                         .requestMatchers(HttpMethod.GET, "/schedulings/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/schedulings").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/schedulings").permitAll()
@@ -75,9 +86,8 @@ public class SecurityConfiguration {
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handling -> handling
-                    .authenticationEntryPoint(loginEntryPoint)
-                    .accessDeniedHandler(new AccessDeniedHandlerImpl())
-                );
+                        .authenticationEntryPoint(loginEntryPoint)
+                        .accessDeniedHandler(new AccessDeniedHandlerImpl()));
 
         return http.build();
     }
