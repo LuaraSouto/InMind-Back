@@ -30,7 +30,7 @@ public class PsychlogistServiceTest {
 
     @Test
     public void criarPsicologoComCRP() {
-        var fernandoDTO = new PsychologistInputDTO("12345678", "12345678910111", 100f);
+        var fernandoDTO = new PsychologistInputDTO("user", "mail@mail", "123456789" ,null, null,"12345678", "12345678910111");
         var fernando = new Psychologist(fernandoDTO);
         when(repository.save(any())).thenReturn(fernando);
         var resultado = service.create(fernandoDTO);
@@ -40,7 +40,7 @@ public class PsychlogistServiceTest {
 
     @Test
     public void criarPsicologoComCNPJ() {
-        var fernandoDTO = new PsychologistInputDTO("12345678", "12345678910111", 100f);
+        var fernandoDTO = new PsychologistInputDTO("user", "mail@mail", "123456789" ,null, null,"12345678", "12345678910111");
         var fernando = new Psychologist(fernandoDTO);
         when(repository.save(any())).thenReturn(fernando);
         var resultado = service.create(fernandoDTO);
@@ -49,12 +49,12 @@ public class PsychlogistServiceTest {
 
     @Test
     public void validaacoCRPeCNPJ() {
-        var fernandoDTO = new PsychologistInputDTO(null, null, 100f);
+        var fernandoDTO = new PsychologistInputDTO("user", "mail@mail", "123456789" ,null, null,null, null);
         var fernando = new Psychologist(fernandoDTO);
         when(repository.save(any())).thenReturn(fernando);
         assertFalse(service.verificaCRPeCNPJ(fernando));
 
-        var fernandoDTOCompleto = new PsychologistInputDTO("2313213213", "12345678910111", 100f);
+        var fernandoDTOCompleto = new PsychologistInputDTO("user", "mail@mail", "123456789" ,null, null,"12345678", "12345678910111");
         var fernandoCompleto = new Psychologist(fernandoDTOCompleto);
         when(repository.save(any())).thenReturn(fernandoCompleto);
         assertTrue(service.verificaCRPeCNPJ(fernandoCompleto));

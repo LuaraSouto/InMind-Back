@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.senai.inmind.entities.Address;
 import com.senai.inmind.entities.User;
 import com.senai.inmind.repositories.UserRepository;
 import com.senai.inmind.services.UserService;
@@ -22,7 +21,7 @@ public class UserServiceTeste {
 
     @Mock
     private UserRepository repository;
-    private Address address;
+
 
     @InjectMocks
     private UserService service;
@@ -40,7 +39,7 @@ public class UserServiceTeste {
 
     @Test
     public void verificarCredenciaisDoUsuario() {
-    var user = new User(1l,"","email@email.com","1234","",true, address);
+    var user = new User(1l,"user", "mail@mail", "123456789" ,null, null, null );
     assertTrue(service.verificarCredenciaisDoUsuario(user));
     user.setPassword("12345");
     assertTrue(service.verificarCredenciaisDoUsuario(user));
@@ -53,11 +52,10 @@ public class UserServiceTeste {
         User savedUser = repository.save(user);
 
         // Verificar se nenhum campo do usuário salvo está nulo
-        assertNull(savedUser.getName());
+        assertNull(savedUser.getUsername());
         assertNull(savedUser.getEmail());
         assertNull(savedUser.getPassword());
         assertNull(savedUser.getPicture());
-        assertNull(savedUser.getIsAdmin());
         ;
 
     }

@@ -32,7 +32,7 @@ public class AvaliationServiceTest {
 
     @Test
     public void criacaoDeAvaliacaoSemComentario(){
-         var avaliacaoDTO =  new AvaliationInputDTO(5, null, patient, psychologist);
+         var avaliacaoDTO =  new AvaliationInputDTO(5, null, 1l, 2l);
         var avaliacao = new Avaliation(avaliacaoDTO);
         when(repository.save(any())).thenReturn(avaliacao);
         assertNull(avaliacao.getComment());
@@ -41,7 +41,7 @@ public class AvaliationServiceTest {
 
     @Test
     public void criacaoDeAvaliacaoCompleto(){
-         var avaliacaoDTO =  new AvaliationInputDTO(5, "muito bom recomendo", patient, psychologist);
+         var avaliacaoDTO =  new AvaliationInputDTO(5, "muito bom recomendo", 1l, 2l);
         var avaliacao = new Avaliation(avaliacaoDTO);
         when(repository.save(any())).thenReturn(avaliacao);
         var resultado = service.create(avaliacaoDTO);

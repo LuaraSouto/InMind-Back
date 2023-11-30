@@ -16,8 +16,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.senai.inmind.dtos.SchedulingInputDTO;
-import com.senai.inmind.entities.Patient;
-import com.senai.inmind.entities.Psychologist;
+
 import com.senai.inmind.entities.Scheduling;
 import com.senai.inmind.repositories.SchedulingRepository;
 
@@ -34,13 +33,11 @@ public class SchedulingServiceTest {
     @InjectMocks
     private SchedulingService service;
 
-    private Psychologist psychologist;
-    private Patient patient;
 
     @Test
     public void criarAgendamentoComDataDisponivel() {
         var date = LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC);
-        var fernando = new SchedulingInputDTO(date, "Oi", psychologist, patient);
+        var fernando = new SchedulingInputDTO(date, "Oi", 1l, 2l);
        
         var fernandoScheduling = new Scheduling(fernando);
         when(repository.save(any())).thenReturn(fernandoScheduling);
@@ -53,8 +50,8 @@ public class SchedulingServiceTest {
     public void criarAgendamentoComDataIndisponivel(){
         var date = LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC);
 
-        var fernando = new SchedulingInputDTO(date, "Oi", psychologist, patient);
-        var dataIndisponivel = new SchedulingInputDTO(date, "Oi", psychologist, patient);
+        var fernando = new SchedulingInputDTO(date, "Oi", 1l, 2l);
+        var dataIndisponivel = new SchedulingInputDTO(date, "Oi", 1l, 2l);
 
         var fernandoScheduling = new Scheduling(fernando);
         var dataIndisponivelDTO = new Scheduling(dataIndisponivel);
